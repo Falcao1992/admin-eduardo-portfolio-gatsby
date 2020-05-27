@@ -54,10 +54,15 @@ const Projects = () => {
 
                 {Object.values(firebaseAllProjects).map((projects) => {
                     return (
-                        <div key={projects.key}>
+                        <Link to={{
+                            pathname: `/projects/edit/${projects.name}`, state: {
+                                projects
+                            }
+                        }}><div key={projects.key}>
                             <p>{projects.name}</p>
                             <img src={projects.urlImage} alt={projects.name}/>
-                        </div>
+                        </div></Link>
+
                     )
                 })}
 

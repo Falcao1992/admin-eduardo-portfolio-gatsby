@@ -12,6 +12,10 @@ import theme from "./assets/theme";
 import {ThemeProvider} from "styled-components";
 import Projects from "./components/Projects/Projects";
 import CreateProjects from "./components/Projects/CreateProjects";
+import EditProjects from "./components/Projects/EditProjects";
+import Messages from "./components/Messages/Messages";
+import Message from "./components/Messages/Message";
+import Banners from "./components/Banner/Banners";
 
 
 function App() {
@@ -24,6 +28,10 @@ function App() {
                         <PrivateRoute exact path="/" component={Home}/>
                         <PrivateRoute exact path="/projects" component={Projects}/>
                         <PrivateRoute exact path="/projects/create" component={CreateProjects}/>
+                        <PrivateRoute exact path="/projects/edit/:projectkey" component={EditProjects}/>
+                        <PrivateRoute exact path="/messages" component={Messages}/>
+                        <PrivateRoute exact path="/message/:keymessage" component={Message}/>
+                        <PrivateRoute exact path="/banners" component={Banners}/>
                         <Route component={NoMatch}/>
                     </Switch>
                 </Router>

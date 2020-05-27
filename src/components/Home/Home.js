@@ -105,7 +105,7 @@ const Home = ({history}) => {
                             <ContainerMessage key={index}>
                                 <WarningIcon/>
                                 <Link to={{
-                                    pathname: `/listOneMessages/${msg.name.toLowerCase()}`,
+                                    pathname: `/message/${msg.name.toLowerCase()}`,
                                     state: {message: msg}
                                 }}>{`${msg.name} ${msg.firstName}`}
                                 </Link>

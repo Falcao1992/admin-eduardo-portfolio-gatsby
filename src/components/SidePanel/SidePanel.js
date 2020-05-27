@@ -81,13 +81,13 @@ const SidePanel = () => {
                     </ListItem>
                 </Link>
 
-                <Link to="/listmessages" className={classes.link}>
+                <Link to="/messages" className={classes.link}>
                     <ListItem button>
                         <ListItemIcon><EmailIcon/></ListItemIcon>
                         <ListItemText className={classes.listItem} primary={`Voir les messages (${numberNewMessages})`}/>
                     </ListItem>
                 </Link>
-                <Link to="/banner" className={classes.link}>
+                <Link to="/banners" className={classes.link}>
                     <ListItem button>
                         <ListItemIcon><EmailIcon/></ListItemIcon>
                         <ListItemText className={classes.listItem} primary="Changer les bannière"/>
