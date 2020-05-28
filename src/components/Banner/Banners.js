@@ -35,7 +35,6 @@ const Banners = () => {
     const PreviewFile = (e, index) => {
         try {
             const file = e.target.files[0];
-
             const resultFile = [...currentImageFile];
             resultFile[index] = file;
             setCurrentImageFile(resultFile);
