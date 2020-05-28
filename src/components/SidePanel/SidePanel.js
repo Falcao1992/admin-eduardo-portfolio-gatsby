@@ -80,7 +80,6 @@ const SidePanel = () => {
                         <ListItemText className={classes.listItem} primary="Ajouter un projet"/>
                     </ListItem>
                 </Link>
-
                 <Link to="/messages" className={classes.link}>
                     <ListItem button>
                         <ListItemIcon><EmailIcon/></ListItemIcon>
@@ -114,18 +113,18 @@ const SidePanel = () => {
 };
 
 const SidePanelContainer = styled.div `
-        background-color: ${props => props.theme.colors.primary};
-        color: ${props => props.theme.colors.secondary};
-        display: flex;
-        padding: 15px 10px;
-        margin-bottom: 30px;
-        justify-content: space-between;
-    `;
+    background-color: ${props => props.theme.colors.primary};
+    color: ${props => props.theme.colors.secondary};
+    display: flex;
+    padding: 15px 10px;
+    margin-bottom: 30px;
+    justify-content: space-between;
+`;
 
 const TitleSidePanel = styled.h2 `
-        font-family: ${props => props.theme.fonts.primary}, sans-serif;
-        margin: 0;  
-        padding-right: 5px;  
-    `;
+    font-family: ${props => props.theme.fonts.primary}, sans-serif;
+    margin: 0;  
+    padding-right: 5px;  
+`;
 
 export default SidePanel;

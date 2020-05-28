@@ -9,5 +9,8 @@ export const ContainerMain = styled.div`
     Button {
         margin: .5rem 0;
     }
+    span {
+        font-size: 0.9rem;
+    }
 `;
 

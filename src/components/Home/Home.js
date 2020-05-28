@@ -13,7 +13,7 @@ import {ContainerMain} from "../StyledComponents/ContainerMain";
 
 moment.locale('fr');
 
-const Home = ({history}) => {
+const Home = () => {
     const [dataProjects, setDataProjects] = useState([]);
     const [lastMessages, setLastMessages] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
@@ -48,7 +48,7 @@ const Home = ({history}) => {
                 return new Date(b.date) - new Date(a.date);
             });
             const dataFormat = dataFlat.slice(0, 8);
-            setDataProjects(dataFormat)
+            setDataProjects(dataFormat);
             setIsLoading(false);
         } catch (e) {
             console.error(e)
@@ -64,11 +64,6 @@ const Home = ({history}) => {
         } catch (e) {
             console.error(e)
         }
-    };
-
-    const handleLinkToArticle = (project) => {
-        localStorage.setItem("project choose", project.name);
-        history.push("/projects");
     };
 
     if (isLoading) {
@@ -92,9 +87,14 @@ const Home = ({history}) => {
                 <WrapperProjects>
                     {dataProjects.length !== 0 && dataProjects.map(project => {
                         return (
-                            <ContainerImageGrid key={project.key} onClick={() => handleLinkToArticle(project)}>
-                                <img src={project.urlImage} alt={project.key}/>
-                            </ContainerImageGrid>
+                                <ContainerImageGrid>
+                                    <Link to={{
+                                        pathname: `/projects/edit/${project.key}`, state: {
+                                                project
+                                            }}}>
+                                    <img src={project.urlImage} alt={project.key}/>
+                                    </Link>
+                                </ContainerImageGrid>
                         )
                     })}
                 </WrapperProjects>

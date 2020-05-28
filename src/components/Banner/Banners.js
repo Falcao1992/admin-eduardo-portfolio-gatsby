@@ -3,8 +3,10 @@ import SidePanel from "../SidePanel/SidePanel";
 import app from "../../firebase";
 import {CircularLoading, CircularLoadingContainer} from "../StyledComponents/Loader";
 import styled from "styled-components";
-import {Container, Input, Button} from "@material-ui/core";
-
+import {Input, Button} from "@material-ui/core";
+import {ContainerMain} from "../StyledComponents/ContainerMain";
+import {BlockTitle} from "../StyledComponents/BlockTitle";
+import {toast} from "react-toastify";
 
 const Banners = () => {
 
@@ -13,6 +15,9 @@ const Banners = () => {
     const [currentBannerImg, setCurrentBannerImg] = useState([]);
     const [currentImageFile, setCurrentImageFile] = useState([]);
 
+    const [isSending, setIsSending] = useState(false);
+
+    toast.configure();
 
     useEffect(() => {
         fetchDataBanner()
@@ -35,6 +40,7 @@ const Banners = () => {
     const PreviewFile = (e, index) => {
         try {
             const file = e.target.files[0];
+
             const resultFile = [...currentImageFile];
             resultFile[index] = file;
             setCurrentImageFile(resultFile);
@@ -53,17 +59,17 @@ const Banners = () => {
     };
 
     const submitEditBanner = (index, pageName) => {
-        console.log(currentImageFile[index])
         if (currentImageFile[index] !== undefined) {
-            console.log("c'est bon")
+            setIsSending(true);
             sendData(currentImageFile[index], pageName)
         } else {
-            console.log("pas de fichier")
+            console.log("probleme pas de fichier ")
         }
     };
 
     const sendData = (file, pageName) => {
-        const uploadTask = app.storage().ref(`banners/${pageName}Banner`).put(file);
+        const refBanner = app.storage().ref(`banners/${pageName}Banner`);
+        const uploadTask = refBanner.put(file);
         uploadTask.on(`state_changed`,
             (snapshot) => {
                 console.log(snapshot)
@@ -72,17 +78,29 @@ const Banners = () => {
                 console.log(error)
             },
             () => {
-                app.storage().ref(`banners`).child(`${pageName}Banner`).getDownloadURL()
+                refBanner.getDownloadURL()
                     .then(url => {
                         return url
                     })
                     .then((bannerUrl) => {
-                        console.log(bannerUrl);
                         app.database().ref(`banners/${pageName}`)
                             .update({
                                 urlImage: bannerUrl
-                            });
-                        fetchDataBanner()
+                            })
+                            .then(() => {
+                                toast.success('La banniere à été correctement changé!', {
+                                    position: "top-right",
+                                    autoClose: 5000,
+                                    hideProgressBar: false,
+                                    closeOnClick: true,
+                                    pauseOnHover: true,
+                                    draggable: true
+                                });
+                                fetchDataBanner()
+                                    .then(() => {
+                                    setIsSending(false)
+                                })
+                            })
                     })
                     .catch(e => {
                         console.error(e)
@@ -104,11 +122,11 @@ const Banners = () => {
     return (
         <>
             <SidePanel/>
-            <Container fixed>
-                <PageBlockTitleDescription>
+            <ContainerMain>
+                <BlockTitle>
                     <h1>Editer les Bannières</h1>
                     <p>Veuillez choisir une nouvelle image puis cliquez sur le boutton associé afin de valider le changement de bannière :</p>
-                </PageBlockTitleDescription>
+                </BlockTitle>
                 {firebaseDataBanner && Object.values(firebaseDataBanner).map((banner, index) => {
                     return (
                         <ContainerBannerPreview key={banner.uid}>
@@ -120,24 +138,16 @@ const Banners = () => {
                                 <img src={currentBannerImg[index]} alt="article"/>
                             }
                             <Button variant="contained" type="button"
-                                    disabled={!currentImageFile[index]}
+                                    disabled={!currentImageFile[index] || isSending}
                                     onClick={() => submitEditBanner(index, banner.page)} color="secondary"
                                     aria-label="edit">Changer Banniere</Button>
                         </ContainerBannerPreview>
                     )
                 })}
-            </Container>
+            </ContainerMain>
         </>
     )
 };
-
-const PageBlockTitleDescription = styled.div`
-        margin-bottom: 20px;
-        h1 {
-        font-family: ${props => props.theme.fonts.primary}, sans-serif;
-        font-size: 1.7em;     
-        }      
-    `;
 
 const ContainerBannerPreview = styled.div`
     display: flex;

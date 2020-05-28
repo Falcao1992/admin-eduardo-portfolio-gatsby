@@ -5,6 +5,8 @@ import {DisplayCalendar} from "./DisplayCalendar";
 import styled from "styled-components";
 import app from "../../firebase";
 import {Button} from "@material-ui/core";
+import {BlockTitle} from "../StyledComponents/BlockTitle";
+import {ContainerMain} from "../StyledComponents/ContainerMain";
 
 const Message = ({location, history}) => {
     const {message} = location.state;
@@ -21,52 +23,43 @@ const Message = ({location, history}) => {
     };
 
     const handleDeleteMessage = () => {
-        app.database().ref(`/contactMessage/${message.key}`).remove().then(() => {history.push("/messages")});
-        console.log(message.key)
+        app.database().ref(`/contactMessage/${message.key}`).remove().then(() => {
+            history.push("/messages")
+        });
     };
 
     return (
         <>
             <SidePanel/>
-            <ContainerOneMessage>
-                <BlockTitle>
-                    <h3>{`${message.name} ${message.firstName} `}<span> Le {moment(message.dateMessage).format('LLLL')}</span></h3>
-                </BlockTitle>
-                <BlockMessage>
-                    <p>{message.message}</p>
-                </BlockMessage>
-                <DisplayCalendar dateMessage={new Date(message.dateMessage)}/>
-            </ContainerOneMessage>
-            <Button variant="contained" color="secondary"
-                    onClick={handleDeleteMessage}> Supprimer</Button>
+            <ContainerMain>
+                <ContainerMessage>
+                    <BlockTitle>
+                        <h2>{`${message.name} ${message.firstName} `}<span> Le {moment(message.dateMessage).format('LLLL')}</span>
+                        </h2>
+                    </BlockTitle>
+                    <BlockMessage>
+                        <p>{message.message}</p>
+                    </BlockMessage>
+                    <DisplayCalendar dateMessage={new Date(message.dateMessage)}/>
+                </ContainerMessage>
+                <Button variant="contained" color="secondary"
+                        onClick={handleDeleteMessage}> Supprimer</Button>
+            </ContainerMain>
         </>
     )
 };
 
-const BlockTitle = styled.div`
-    h3 {
-        font-family: ${props => props.theme.fonts.primary};
-        font-size: 1.3rem;
-        margin-bottom: 0.3rem;
-    }
-    
-    span {
-        font-size: 0.8rem;
-    }
-`
 
-const ContainerOneMessage = styled.div`
-    width: 90%;
-    margin: auto;
+const ContainerMessage = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: center;
 `;
 
 const BlockMessage = styled.div`
-    margin: 1rem 0;
+    margin: 0 0 0.5rem;
     border: 1px solid ${props => props.theme.colors.secondary};
     padding: 0.5rem;
-`
+`;
 
 export default Message

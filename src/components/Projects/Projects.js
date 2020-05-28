@@ -54,17 +54,17 @@ const Projects = () => {
                     <p>Veuillez cliquer sur un projects pour le modifier:</p>
                 </BlockTitle>
                 <ContainerProjects>
-                    {Object.values(firebaseAllProjects).map((projects) => {
+                    {Object.values(firebaseAllProjects).map((project) => {
                         return (
-                            <BlockProject key={projects.key}>
+                            <BlockProject key={project.key}>
                                 <Link to={{
-                                    pathname: `/projects/edit/${projects.key}`, state: {
-                                        projects
+                                    pathname: `/projects/edit/${project.key}`, state: {
+                                        project
                                     }
                                 }}>
                                     <BlockImage>
-                                        <p>{projects.name}</p>
-                                        <img src={projects.urlImage} alt={projects.name}/>
+                                        <p>{project.name}</p>
+                                        <img src={project.urlImage} alt={project.name}/>
                                     </BlockImage>
                                 </Link>
                             </BlockProject>

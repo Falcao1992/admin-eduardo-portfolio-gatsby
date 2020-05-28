@@ -49,28 +49,28 @@ const Login = ({history}) => {
 };
 
 const ContainerLogin = styled.div`
-        display: flex;
-        background-color: #ddefff;
-        justify-content: center;
-        flex-direction: column;
-        height: 100vh;  
-        padding: 0 10%;
-    `;
+    display: flex;
+    background-color: #ddefff;
+    justify-content: center;
+    flex-direction: column;
+    height: 100vh;  
+    padding: 0 10%;
+`;
 const ContainerBlockLogin = styled.div`
-        background-color: #726dbc75;
-        padding: 70px 50px;   
-            h1 {
-                margin-bottom: 35px;
-                font-size: 1.5em;
-                text-transform: uppercase;
-            } 
-            div {
-              margin-bottom: 15px;
-              width: 100%;
-            }     
-            Button {
-              width: 100%;
-            }
-    `;
+    background-color: #726dbc75;
+    padding: 70px 50px;   
+    h1 {
+        margin-bottom: 35px;
+        font-size: 1.5em;
+        text-transform: uppercase;
+    } 
+    div {
+        margin-bottom: 15px;
+        width: 100%;
+    }     
+    Button {
+        width: 100%;  
+    }
+`;
 
 export default withRouter(Login);

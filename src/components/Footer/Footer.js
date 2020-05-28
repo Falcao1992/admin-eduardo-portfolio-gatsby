@@ -4,12 +4,8 @@ const Footer = () => {
     return (
         <div>
             <p>salut je suis le footer</p>
-            <p>salut je suis le footer</p>
-            <p>salut je suis le footer</p>
-            <p>salut je suis le footer</p>
         </div>
     )
-
 };
 
 export default Footer;
