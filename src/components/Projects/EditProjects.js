@@ -17,7 +17,7 @@ const EditProjects = ({location, history}) => {
     const [currentNewPreviewImg, setCurrentNewPreviewImg] = useState(null);
     const [currentNewPreviewFile, setCurrentNewPreviewFile] = useState(null);
 
-    const {projectTitle, urlImage, type, description, sourceNetlify, key} = currentDataEdit;
+    const {projectTitle, urlImage, description, sourceNetlify, key} = currentDataEdit;
     const {project} = location.state;
     toast.configure();
 
@@ -137,13 +137,37 @@ const EditProjects = ({location, history}) => {
                     <h1>Editer un projet existant</h1>
                     <p>veuillez remplir tout les champs non grisé svp :</p>
                 </BlockTitle>
-                <ContainterPreview>
-                    <img src={urlImage} alt={key}/>
-                    <h2>{projectTitle}</h2>
-                    <p>Type: {type}</p>
-                    <p>Description: {description}</p>
-                    <p>Lien Ntelify: {sourceNetlify}</p>
-                </ContainterPreview>
+                <ContainerPreviews>
+                    <div>
+                        <TitlePreview>image actuelle :</TitlePreview>
+                        <a href={urlImage} target="_blank" rel="noopener noreferrer"><img src={urlImage} alt={key}/></a>
+                    </div>
+                    <BlockTextPreview>
+                        <TitlePreview>informations :</TitlePreview>
+                        <div>
+                            <h2>{projectTitle}</h2>
+                            <p>Description: {description}</p>
+                            <p>Lien Ntelify: {sourceNetlify}</p>
+                        </div>
+                    </BlockTextPreview>
+                    <BlockNewImage>
+                        <TitlePreview>nouvelle image :</TitlePreview>
+                        {currentNewPreviewImg !== null
+                            ?
+                            <img src={currentNewPreviewImg} alt=" preview projects"/>
+                            :
+                            <div>
+                                <input type="file" id="contained-button-file" required onChange={PreviewFile}/>
+                                <label htmlFor="contained-button-file">
+                                    <IconButton color="secondary" aria-label="upload picture" component="span">
+                                        <PhotoCamera fontSize="large"/>
+                                    </IconButton>
+                                </label>
+                            </div>
+                        }
+                    </BlockNewImage>
+                </ContainerPreviews>
+
                 <ContainerForm>
                     {currentDataEdit && Object.entries(currentDataEdit).filter(filterDataDisplay).map((value, index) => {
                         return (
@@ -159,10 +183,6 @@ const EditProjects = ({location, history}) => {
                             </div>
                         )
                     })}
-                    {currentNewPreviewImg !== null
-                    &&
-                    <img src={currentNewPreviewImg} alt=" preview projects"/>
-                    }
                     <ContainerButton>
                         <input type="file" id="contained-button-file" required onChange={PreviewFile}/>
                         <label htmlFor="contained-button-file">
@@ -173,7 +193,8 @@ const EditProjects = ({location, history}) => {
                         <IconButton color="primary" aria-label="save picture" onClick={submitEdit} component="span">
                             <SaveIcon fontSize="large"/>
                         </IconButton>
-                        <IconButton color="secondary" aria-label="delete picture" onClick={handleDeleteProject} component="span">
+                        <IconButton color="secondary" aria-label="delete picture" onClick={handleDeleteProject}
+                                    component="span">
                             <DeleteIcon fontSize="large"/>
                         </IconButton>
                     </ContainerButton>
@@ -183,11 +204,80 @@ const EditProjects = ({location, history}) => {
     )
 };
 
-const ContainterPreview = styled.div`
+const ContainerPreviews = styled.div`
+    display: flex;
+    justify-content: space-between;
+    padding: 3rem;
+    background-color: ${props => props.theme.colors.primary};   
+    @media only screen and (max-width:800px) {
+        flex-direction: column;
+        padding: 0;
+        background-color: initial;
+    }
+    > div {
+        width: 30%;
+        display: flex;
+        flex-direction: column;
+        position: relative;    
+        @media only screen and (max-width:800px) {
+            width: auto;
+            margin: 1rem 0;
+        }
+    }
     img {
-        width: 100%;
+        max-width: 100%;
+        max-height: 65vh;
+        object-fit: contain;
+        @media only screen and (max-width:800px) {
+            width: 100%;
+            max-height: 50vh;
+        }
     }
 `;
+
+const TitlePreview = styled.p`
+    text-transform: uppercase;
+    text-align: center;
+    margin-bottom: 0.5rem;
+`;
+
+const BlockTextPreview = styled.div`
+    @media only screen and (max-width:800px) {
+        order: 2;
+    }
+    > div {
+        height: 65vh;
+        background-color: white;
+        padding: 0.5rem;
+        @media only screen and (max-width:800px) {
+            border: 1px solid #00000021;
+            height: 50vh;
+        }
+    }
+`;
+
+
+const BlockNewImage = styled.div `
+    @media only screen and (max-width:800px) {
+        order: 1;
+    }
+    > div {
+        background-color: white;
+        height: 65vh;
+        border: 1px solid #00000021;
+        input {
+            display: none;
+        }
+        label {
+            position: absolute;
+            width: min-content;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%,-50%);
+        }
+    }
+`;
+
 
 const ContainerForm = styled.div`
     margin-top: 2rem;
@@ -208,6 +298,7 @@ const TextFieldStyled = styled(TextField)`
 const ContainerButton = styled.div`
     display: flex;
     justify-content: space-evenly;
+    
 `;
 
 

@@ -1,11 +1,17 @@
 import React from "react";
+import styled from "styled-components";
 
 const Footer = () => {
     return (
-        <div>
+        <ContainerFooter>
             <p>salut je suis le footer</p>
-        </div>
+        </ContainerFooter>
     )
 };
 
+const ContainerFooter = styled.div `
+    background-color: ${props => props.theme.colors.primary};
+`;
+
 export default Footer;
+

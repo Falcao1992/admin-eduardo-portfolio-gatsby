@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 export const ContainerMain = styled.div`
     width: 90%;
-    margin: 2rem auto 3rem;
+    margin: 1rem auto 2rem;
     h2 {
         padding: 1rem 0;
     }

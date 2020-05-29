@@ -129,18 +129,18 @@ const Home = () => {
 const SectionHome = styled.section`
     display: flex;
     flex-direction: column;      
-    align-items: center;
     margin-bottom: 3rem;      
 `;
 
 const WrapperProjects = styled.div`
-    display: grid;
-    grid-template-columns: repeat(4, auto);
-    grid-template-rows: 1fr 1fr;
-    grid-gap: 0.1rem;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
 `;
 
 const ContainerImageGrid = styled.div`
+    width: calc(25% - .5rem);
+    margin: 0 .25rem .25rem;
     img {          
         object-fit: cover;
         width: 100%;
@@ -163,7 +163,7 @@ const ContainerMessage = styled.div`
         margin: 0 1rem;
     }
     p {
-        margin-left: 0.4rem;
+        margin-left: .4rem;
     }
 `;
 

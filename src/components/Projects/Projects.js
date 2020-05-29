@@ -89,7 +89,7 @@ const ContainerProjects = styled.div`
 `;
 
 const BlockProject = styled.div`
-    width: calc(50% - 0.5rem);
+    width: calc(25% - 0.5rem);
     margin-bottom: 0.5rem;
     img {
         width: 100%;

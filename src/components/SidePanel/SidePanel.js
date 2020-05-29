@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {Link} from "react-router-dom";
 
-// Import Components of Material-Ui
 import {Drawer, Button, List, Divider, ListItem, ListItemText,ListItemIcon, makeStyles } from '@material-ui/core';
 
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
@@ -10,6 +9,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import CreateIcon from '@material-ui/icons/Create';
 import ListIcon from '@material-ui/icons/List';
 import EmailIcon from '@material-ui/icons/Email';
+import ImageIcon from '@material-ui/icons/Image';
 import styled from "styled-components";
 import app from "../../firebase";
 
@@ -88,7 +88,7 @@ const SidePanel = () => {
                 </Link>
                 <Link to="/banners" className={classes.link}>
                     <ListItem button>
-                        <ListItemIcon><EmailIcon/></ListItemIcon>
+                        <ListItemIcon><ImageIcon/></ListItemIcon>
                         <ListItemText className={classes.listItem} primary="Changer les bannière"/>
                     </ListItem>
                 </Link>
@@ -117,14 +117,14 @@ const SidePanelContainer = styled.div `
     color: ${props => props.theme.colors.secondary};
     display: flex;
     padding: 15px 10px;
-    margin-bottom: 30px;
     justify-content: space-between;
+    align-items: center;
 `;
 
 const TitleSidePanel = styled.h2 `
     font-family: ${props => props.theme.fonts.primary}, sans-serif;
     margin: 0;  
-    padding-right: 5px;  
+    padding-right: .4rem;  
 `;
 
 export default SidePanel;
