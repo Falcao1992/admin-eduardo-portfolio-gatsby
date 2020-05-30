@@ -96,6 +96,8 @@ const Banners = () => {
                                     pauseOnHover: true,
                                     draggable: true
                                 });
+                                setCurrentImageFile([]);
+                                setCurrentBannerImg([]);
                                 fetchDataBanner()
                                     .then(() => {
                                     setIsSending(false)
@@ -130,8 +132,8 @@ const Banners = () => {
                 {firebaseDataBanner && Object.values(firebaseDataBanner).map((banner, index) => {
                     return (
                         <ContainerBannerPreview key={banner.uid}>
-                            <p>Bannière de la page {banner.page} :</p>
-                            <img src={banner.urlImage} alt={banner.page}/>
+                            <p>Bannière de la page {banner.key} :</p>
+                            <img src={banner.urlImage} alt={banner.key}/>
                             <Input type="file" margin='dense' required onChange={(e) => PreviewFile(e, index)}/>
                             {typeof currentBannerImg[index] === 'string'
                             &&
@@ -139,7 +141,7 @@ const Banners = () => {
                             }
                             <Button variant="contained" type="button"
                                     disabled={!currentImageFile[index] || isSending}
-                                    onClick={() => submitEditBanner(index, banner.page)} color="secondary"
+                                    onClick={() => submitEditBanner(index, banner.key)} color="secondary"
                                     aria-label="edit">Changer Banniere</Button>
                         </ContainerBannerPreview>
                     )

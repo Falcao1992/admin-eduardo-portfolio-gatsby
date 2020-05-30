@@ -87,7 +87,7 @@ const Home = () => {
                 <WrapperProjects>
                     {dataProjects.length !== 0 && dataProjects.map(project => {
                         return (
-                                <ContainerImageGrid>
+                                <ContainerImageGrid key={project.key}>
                                     <Link to={{
                                         pathname: `/projects/edit/${project.key}`, state: {
                                                 project
