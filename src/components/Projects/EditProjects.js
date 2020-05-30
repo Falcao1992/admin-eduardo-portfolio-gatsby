@@ -139,17 +139,10 @@ const EditProjects = ({location, history}) => {
                 </BlockTitle>
                 <ContainerPreviews>
                     <div>
-                        <TitlePreview>image actuelle :</TitlePreview>
+                        <TitlePreviewExist aligntop={true}>image actuelle :</TitlePreviewExist>
                         <a href={urlImage} target="_blank" rel="noopener noreferrer"><img src={urlImage} alt={key}/></a>
                     </div>
-                    <BlockTextPreview>
-                        <TitlePreview>informations :</TitlePreview>
-                        <div>
-                            <h2>{projectTitle}</h2>
-                            <p>Description: {description}</p>
-                            <p>Lien Ntelify: {sourceNetlify}</p>
-                        </div>
-                    </BlockTextPreview>
+
                     <BlockNewImage>
                         <TitlePreview>nouvelle image :</TitlePreview>
                         {currentNewPreviewImg !== null
@@ -167,6 +160,14 @@ const EditProjects = ({location, history}) => {
                         }
                     </BlockNewImage>
                 </ContainerPreviews>
+                <BlockTextPreview>
+                    <TitlePreview>informations :</TitlePreview>
+                    <div>
+                        <h2>{projectTitle}</h2>
+                        <p>Description: {description}</p>
+                        <p>Lien Ntelify: {sourceNetlify}</p>
+                    </div>
+                </BlockTextPreview>
 
                 <ContainerForm>
                     {currentDataEdit && Object.entries(currentDataEdit).filter(filterDataDisplay).map((value, index) => {
@@ -207,7 +208,7 @@ const EditProjects = ({location, history}) => {
 const ContainerPreviews = styled.div`
     display: flex;
     justify-content: space-between;
-    padding: 3rem;
+    padding: 2rem;
     background-color: ${props => props.theme.colors.primary};   
     @media only screen and (max-width:800px) {
         flex-direction: column;
@@ -215,9 +216,10 @@ const ContainerPreviews = styled.div`
         background-color: initial;
     }
     > div {
-        width: 30%;
+        width: calc(50% - 2rem);
         display: flex;
         flex-direction: column;
+        justify-content: center;
         position: relative;    
         @media only screen and (max-width:800px) {
             width: auto;
@@ -225,12 +227,13 @@ const ContainerPreviews = styled.div`
         }
     }
     img {
-        max-width: 100%;
-        max-height: 65vh;
+        width: 100%;
         object-fit: contain;
+        height: 50vh;
         @media only screen and (max-width:800px) {
             width: 100%;
             max-height: 50vh;
+            height: auto;
         }
     }
 `;
@@ -240,31 +243,43 @@ const TitlePreview = styled.p`
     text-align: center;
     margin-bottom: 0.5rem;
 `;
+const TitlePreviewExist = styled.p`
+    text-transform: uppercase;
+    text-align: center;
+    margin-bottom: 0.5rem;
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translate(-50%, 50%);
+    @media only screen and (max-width:800px) {
+        position: initial;
+        transform: initial;
+    }
+`;
 
 const BlockTextPreview = styled.div`
-    @media only screen and (max-width:800px) {
-        order: 2;
-    }
     > div {
-        height: 65vh;
+        height: auto;
         background-color: white;
         padding: 0.5rem;
+        h2,p {
+            overflow-wrap: break-word;
+        }
         @media only screen and (max-width:800px) {
             border: 1px solid #00000021;
-            height: 50vh;
         }
     }
 `;
 
 
 const BlockNewImage = styled.div `
-    @media only screen and (max-width:800px) {
-        order: 1;
-    }
     > div {
         background-color: white;
         height: 65vh;
         border: 1px solid #00000021;
+        @media only screen and (max-width:800px) {
+            height: 40vh;
+        }
         input {
             display: none;
         }

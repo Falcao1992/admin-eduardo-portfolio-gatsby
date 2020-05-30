@@ -144,8 +144,9 @@ const ContainerImageGrid = styled.div`
     img {          
         object-fit: cover;
         width: 100%;
-        height: 100%;
-        vertical-align: middle;        
+        height: 45vh;
+        vertical-align: middle;
+        background-color: black;       
     }
   `;
 

@@ -129,10 +129,11 @@ const Banners = () => {
                     <h1>Editer les Bannières</h1>
                     <p>Veuillez choisir une nouvelle image puis cliquez sur le boutton associé afin de valider le changement de bannière :</p>
                 </BlockTitle>
+                <ContainerAllBannerPreviews>
                 {firebaseDataBanner && Object.values(firebaseDataBanner).map((banner, index) => {
                     return (
                         <ContainerBannerPreview key={banner.uid}>
-                            <p>Bannière de la page {banner.key} :</p>
+                            <p>Page "{banner.key}" :</p>
                             <img src={banner.urlImage} alt={banner.key}/>
                             <Input type="file" margin='dense' required onChange={(e) => PreviewFile(e, index)}/>
                             {typeof currentBannerImg[index] === 'string'
@@ -146,24 +147,39 @@ const Banners = () => {
                         </ContainerBannerPreview>
                     )
                 })}
+                </ContainerAllBannerPreviews>
             </ContainerMain>
         </>
     )
 };
 
+const ContainerAllBannerPreviews = styled.div`
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+`;
+
 const ContainerBannerPreview = styled.div`
     display: flex;
     flex-direction: column;
+    width: calc(33% - 2rem);
+    @media only screen and (max-width:800px) {
+        flex-direction: column;
+        width: 100%;
+    }
     p {
-      font-size: 1.6rem;
-      text-decoration: underline;
+        font-size: 1.6rem;
+        text-decoration: underline;
+        text-align: center;
     }
     img {
-      width: 100%;
-      margin: 0.5rem 0;
+        width: 100%;
+        margin: 0.5rem 0;
+        height: 45vh;
+        object-fit: cover;
     }
     Button {
-      margin: 0.5rem 0 2rem;
+        margin: 0.5rem 0 2rem;
     }
 `;
 
