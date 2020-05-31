@@ -82,7 +82,15 @@ const CreateProjects = ({history}) => {
                             .update({
                                 [key]: dataUpdate
                             }).then(() => {
-                            history.push("/projects")
+                            app.database().ref(`banners`).child(key)
+                                .set({
+                                    key: key,
+                                    type: "banner",
+                                    uid: nanoid(),
+                                    urlImage: "https://firebasestorage.googleapis.com/v0/b/portfolio-eduardo-gatsby.appspot.com/o/banners%2FRocket%20and%20Baby%20Groot.jpg?alt=media&token=5c4dc1c3-de5c-4415-b041-08d2225540d1",
+                                }).then(() => {
+                                history.push("/projects")
+                            })
                         })
                     })
                     .catch(e => {

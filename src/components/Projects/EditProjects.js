@@ -124,7 +124,13 @@ const EditProjects = ({location, history}) => {
         app.database().ref(`/projects/${key}`)
             .remove()
             .then(() => {
-                history.push("/projects")
+                app.database().ref(`/banners/${key}`)
+                    .remove()
+                    .then(() => {
+                        history.push("/projects")
+                    })
+
+
             })
     };
 
