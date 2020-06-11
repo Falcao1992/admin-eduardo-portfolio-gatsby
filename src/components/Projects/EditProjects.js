@@ -17,7 +17,7 @@ const EditProjects = ({location, history}) => {
     const [currentNewPreviewImg, setCurrentNewPreviewImg] = useState(null);
     const [currentNewPreviewFile, setCurrentNewPreviewFile] = useState(null);
 
-    const {projectTitle, urlImage, description, sourceNetlify, key} = currentDataEdit;
+    const {projectTitle, urlImage, description, technos, sourceNetlify, key} = currentDataEdit;
     const {project} = location.state;
     toast.configure();
 
@@ -99,7 +99,7 @@ const EditProjects = ({location, history}) => {
     };
 
     const filterDataDisplay = (item) => {
-        if (item[0] === "projectTitle" || item[0] === "sourceNetlify" || item[0] === "description") {
+        if (item[0] === "projectTitle" || item[0] === "sourceNetlify" || item[0] === "description" || item[0] === "technos") {
             return item
         }
     };
@@ -171,7 +171,9 @@ const EditProjects = ({location, history}) => {
                     <div>
                         <h2>{projectTitle}</h2>
                         <p>Description: {description}</p>
+                        <p>technos utilisés: {technos}</p>
                         <p>Lien Ntelify: {sourceNetlify}</p>
+
                     </div>
                 </BlockTextPreview>
 

@@ -27,13 +27,14 @@ const CreateProjects = ({history}) => {
         date: "",
         dateUpdated: "",
         key: "",
+        technos: "",
         type: "project",
         uid: nanoid(),
         urlImage: "",
         sourceNetlify: ""
     };
     const [dataProject, setDataProject] = useState(data);
-    const {projectTitle, description, key, uid, sourceNetlify} = dataProject;
+    const {projectTitle, description, key, uid, sourceNetlify, technos} = dataProject;
 
     toast.configure();
 
@@ -101,7 +102,7 @@ const CreateProjects = ({history}) => {
 
     const checkFormConform = () => {
         return new Promise(function (resolve, reject) {
-            if (projectTitle !== "" && description !== "" && key !== "" && currentImageProject !== "") {
+            if (projectTitle !== "" && description !== "" && key !== "" && currentImageProject !== "" && technos !== "") {
                 toast.success('Votre projet à été correctement creé!', {
                     position: "top-right",
                     autoClose: 5000,
@@ -186,6 +187,17 @@ const CreateProjects = ({history}) => {
                                      id="sourceNetlify"
                                      label="sourceNetlify (falcutatif)"
                                      variant="outlined"
+                    />
+
+                    <TextFieldStyled onChange={handleChange}
+                                     value={technos}
+                                     multiline rowsMax="2"
+                                     id="technos"
+                                     label="technos Utilisé"
+                                     variant="outlined"
+                                     helperText={missingField && technos === "" ? "veuillez remplir ce champ" : technos !== "" && missingField ?
+                                         <CorrectField>bien rempli*</CorrectField> : false}
+                                     error={missingField && technos === "" && true}
                     />
 
                     <TextFieldStyled onChange={handleChangeKey}
