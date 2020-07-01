@@ -171,8 +171,8 @@ const EditProjects = ({location, history}) => {
                     <div>
                         <h2>{projectTitle}</h2>
                         <p>Description: {description}</p>
-                        <p>technos utilisés: {technos}</p>
-                        <p>Lien Ntelify: {sourceNetlify}</p>
+                        <p>Technologies utilisés: {technos}</p>
+                        <p>Lien Netlify: {sourceNetlify}</p>
 
                     </div>
                 </BlockTextPreview>
