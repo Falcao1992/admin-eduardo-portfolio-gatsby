@@ -21,6 +21,7 @@
 
 # firebase
 src/firebase.js
+firebase.js
 
 npm-debug.log*
 yarn-debug.log*
