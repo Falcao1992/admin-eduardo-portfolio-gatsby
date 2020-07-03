@@ -10,6 +10,8 @@ import moment from "moment";
 import 'moment/locale/fr';
 import ScheduleIcon from "@material-ui/icons/Schedule";
 
+console.log("test deploiement")
+
 moment.locale('fr');
 
 const Home = ({history}) => {
