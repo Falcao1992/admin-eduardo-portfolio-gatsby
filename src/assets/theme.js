@@ -4,7 +4,7 @@ const theme = {
         secondary: '#C89446',
     },
     fonts: {
-        primary: 'Roboto',
+        primary: 'Roboto,sans-serif',
     }
 };
 

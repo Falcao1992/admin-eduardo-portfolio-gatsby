@@ -1,13 +1,17 @@
 import React, {useState} from "react";
 import app from "../../firebase";
-import {Button, TextField, Container, Input, CardMedia} from "@material-ui/core";
+import {TextField, Input, CardMedia, IconButton} from "@material-ui/core";
 import styled from "styled-components";
 import SidePanel from "../SidePanel/SidePanel";
 import {nanoid} from 'nanoid'
 import {toast} from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
-import {toCamelCaseString} from "../GlobalFunction";
+import {toCamelCaseString} from "../toCamelCaseString";
 import moment from "moment";
+import {ContainerMain} from "../StyledComponents/ContainerMain";
+import {BlockTitle} from "../StyledComponents/BlockTitle";
+import PhotoCamera from "@material-ui/icons/PhotoCamera";
+import SaveIcon from "@material-ui/icons/Save";
 
 const CreateProjects = ({history}) => {
 
@@ -23,13 +27,14 @@ const CreateProjects = ({history}) => {
         date: "",
         dateUpdated: "",
         key: "",
+        technos: "",
         type: "project",
         uid: nanoid(),
         urlImage: "",
         sourceNetlify: ""
     };
     const [dataProject, setDataProject] = useState(data);
-    const {projectTitle, description, key, uid, sourceNetlify} = dataProject;
+    const {projectTitle, description, key, uid, sourceNetlify, technos} = dataProject;
 
     toast.configure();
 
@@ -49,13 +54,16 @@ const CreateProjects = ({history}) => {
 
     const sendData = () => {
         let copyDataProject;
-        if(dataProject.sourceNetlify === ""){
+        copyDataProject = dataProject;
+
+        if (dataProject.sourceNetlify === "") {
             dataProject.sourceNetlify = "none"
         }
-        dataProject.date = moment().format();
-        dataProject.dateUpdated = moment().format();
+        copyDataProject.date = moment().format();
+        copyDataProject.dateUpdated = moment().format();
 
-        const uploadTask = app.storage().ref(`projectsPicture/${key}`).put(currentImageProjectFile);
+        const refProject = app.storage().ref(`projectsPicture/${key}`)
+        const uploadTask = refProject.put(currentImageProjectFile);
         uploadTask.on(`state_changed`,
             (snapshot) => {
                 console.log(snapshot)
@@ -64,10 +72,9 @@ const CreateProjects = ({history}) => {
                 console.log(error)
             },
             () => {
-                app.storage().ref(`projectsPicture`).child(key).getDownloadURL()
+                refProject.getDownloadURL()
                     .then(url => {
-                        copyDataProject = dataProject;
-                        dataProject.urlImage = url;
+                        copyDataProject.urlImage = url;
                         return copyDataProject
                     })
                     .then((dataUpdate) => {
@@ -75,8 +82,17 @@ const CreateProjects = ({history}) => {
                         app.database().ref(`projects`)
                             .update({
                                 [key]: dataUpdate
-                            });
-                        history.push("/projects");
+                            }).then(() => {
+                            app.database().ref(`banners`).child(key)
+                                .set({
+                                    key: key,
+                                    type: "banner",
+                                    uid: nanoid(),
+                                    urlImage: "https://firebasestorage.googleapis.com/v0/b/portfolio-eduardo-gatsby.appspot.com/o/banners%2FRocket%20and%20Baby%20Groot.jpg?alt=media&token=5c4dc1c3-de5c-4415-b041-08d2225540d1",
+                                }).then(() => {
+                                history.push("/projects")
+                            })
+                        })
                     })
                     .catch(e => {
                         console.error(e)
@@ -86,9 +102,8 @@ const CreateProjects = ({history}) => {
 
     const checkFormConform = () => {
         return new Promise(function (resolve, reject) {
-            if (projectTitle !== "" && description !== "" && key !== "" && currentImageProject !== "") {
-                console.log("tout est rempli merci");
-                toast.success('🦄 votre projet à été correctement creé!', {
+            if (projectTitle !== "" && description !== "" && key !== "" && currentImageProject !== "" && technos !== "") {
+                toast.success('Votre projet à été correctement creé!', {
                     position: "top-right",
                     autoClose: 5000,
                     hideProgressBar: false,
@@ -98,9 +113,9 @@ const CreateProjects = ({history}) => {
                 });
                 sendData();
                 setMissingField(false);
-                resolve("resolu")
+                resolve("résolu")
             } else {
-                toast.error('🦄 veuillez remplir tout les chanps svp !', {
+                toast.error('Veuillez remplir tout les chanps svp !', {
                     position: "top-right",
                     autoClose: 5000,
                     hideProgressBar: false,
@@ -114,15 +129,14 @@ const CreateProjects = ({history}) => {
         });
     };
 
-    const onSubmit = async () => {
-        const result = await checkFormConform();
-        console.log(result)
+    const onSubmit = () => {
+        checkFormConform();
     };
 
     const PreviewFile = (e) => {
         try {
             const file = e.target.files[0];
-            console.log(file, "file")
+
             const reader = new FileReader();
             reader.readAsDataURL(file);
             reader.onloadend = (event) => {
@@ -132,109 +146,153 @@ const CreateProjects = ({history}) => {
         } catch (error) {
             console.error(error)
         }
-
     };
 
     return (
         <>
             <SidePanel/>
-            <Container fixed>
-                <PageBlockTitleDescription>
-                    <h1>Creer un nouvel article</h1>
+            <ContainerMain>
+                <BlockTitle>
+                    <h1>Ajouter un nouveau Projet</h1>
                     <p>veuillez remplir tout les champs non grisé svp :</p>
-                </PageBlockTitleDescription>
-
+                </BlockTitle>
                 <FormStyled autoComplete="off">
-                    <TextFieldStyled onChange={handleChange} value={projectTitle} required id="projectTitle"
-                                     label="projectTitle" variant="outlined"
-                                     helperText={missingField && projectTitle === "" ? <small>veuillez remplir ce
-                                         champ</small> : projectTitle !== "" && missingField ?
-                                         <CorrectField>bien rempli*</CorrectField> : false}
-                                     error={missingField && projectTitle === "" && true}
+                    <TextFieldStyled
+                        onChange={handleChange}
+                        value={projectTitle}
+                        id="projectTitle"
+                        label="Titre du Projet*"
+                        variant="outlined"
+                        helperText={missingField && projectTitle === "" ? <small>veuillez remplir ce
+                            champ</small> : projectTitle !== "" && missingField ?
+                            <CorrectField>bien rempli*</CorrectField> : false}
+                        error={missingField && projectTitle === "" && true}
 
                     />
 
-                    <TextFieldStyled onChange={handleChange} value={description} required multiline rowsMax="6"
-                                     id="description" label="description" variant="outlined"
+                    <TextFieldStyled onChange={handleChange}
+                                     value={description}
+                                     multiline rowsMax="6"
+                                     id="description"
+                                     label="description*"
+                                     variant="outlined"
                                      helperText={missingField && description === "" ? "veuillez remplir ce champ" : description !== "" && missingField ?
                                          <CorrectField>bien rempli*</CorrectField> : false}
                                      error={missingField && description === "" && true}
                     />
 
-                    <TextFieldStyled onChange={handleChange} value={sourceNetlify} multiline rowsMax="2"
-                                     id="sourceNetlify" label="sourceNetlify (falcutatif)" variant="outlined"
+                    <TextFieldStyled onChange={handleChange}
+                                     value={sourceNetlify}
+                                     multiline rowsMax="2"
+                                     id="sourceNetlify"
+                                     label="sourceNetlify (falcutatif)"
+                                     variant="outlined"
                     />
 
+                    <TextFieldStyled onChange={handleChange}
+                                     value={technos}
+                                     multiline rowsMax="2"
+                                     id="technos"
+                                     label="technos Utilisé"
+                                     variant="outlined"
+                                     helperText={missingField && technos === "" ? "veuillez remplir ce champ" : technos !== "" && missingField ?
+                                         <CorrectField>bien rempli*</CorrectField> : false}
+                                     error={missingField && technos === "" && true}
+                    />
 
-                    <TextFieldStyled onChange={handleChangeKey} value={keyBeforeTransform} required id="key"
-                                     label="Key"
+                    <TextFieldStyled onChange={handleChangeKey}
+                                     value={keyBeforeTransform}
+                                     id="key"
+                                     label="Key*"
                                      variant="outlined"
                                      helperText={missingField && key === "" ? "veuillez remplir ce champ" : key !== "" && missingField ?
                                          <CorrectField>bien rempli*</CorrectField> : false}
                                      error={missingField && key === "" && true}
                     />
 
-                    <TextFieldStyled value={key} disabled id="key" label="key final"
-                                     variant="outlined"
-                                     helperText={missingField && key === "" ? "veuillez remplir ce champ" : key !== "" && missingField ?
-                                         <CorrectField>bien rempli*</CorrectField> : false}
-                                     error={missingField && key === "" && true}
-                    />
-
-                    <TextFieldStyled value={uid} disabled multiline rowsMax="4" id="uid" label="uid"
+                    <TextFieldStyled value={key}
+                                     disabled
+                                     id="key"
+                                     label="key final"
                                      variant="outlined"
                     />
 
-                    <Input type="file" margin='dense' required onChange={PreviewFile}
-                           error={missingField && currentImageProject === "" && true}/>
+                    <TextFieldStyled value={uid}
+                                     disabled
+                                     multiline
+                                     rowsMax="4"
+                                     id="uid"
+                                     label="uid"
+                                     variant="outlined"
+                    />
+
+                    {/*<Input type="file"
+                           margin='dense'
+                           onChange={PreviewFile}
+                           error={missingField && currentImageProject === "" && true}/>*/}
+
+                    <Input type="file"
+                           id="contained-button-file"
+                           required
+                           onChange={PreviewFile}
+                    />
+
+                    <ContainerButton>
+                        <label htmlFor="contained-button-file">
+                            <IconButton color="secondary" aria-label="upload picture" component="span">
+                                <PhotoCamera fontSize="large"/>
+                            </IconButton>
+                        </label>
+
+                        <IconButton color="primary" aria-label="save project" onClick={onSubmit}>
+                            <SaveIcon fontSize="large"/>
+                        </IconButton>
+                    </ContainerButton>
+
                     {currentImageProject !== "" &&
-                    <CardMediaStyled title="Image de l'article" alt="article">
-                        <img src={currentImageProject} alt="article"/>
+                    <CardMediaStyled title="Image du projet" alt="projet">
+                        <img src={currentImageProject} alt="projet"/>
                     </CardMediaStyled>
                     }
 
-                    <ButtonCreate variant="contained" type="button" onClick={onSubmit} color="primary"
-                                  aria-label="edit">create</ButtonCreate>
                 </FormStyled>
-            </Container>
+            </ContainerMain>
         </>
     )
 };
 
-const PageBlockTitleDescription = styled.div`
-        margin-bottom: 20px;
-        h1 {
-        font-family: ${props => props.theme.fonts.primary}, sans-serif;
-        font-size: 1.7em;     
-        }      
-    `;
-
 const CorrectField = styled.small`
-          color: green
-    `;
+    color: green
+`;
 
-const ButtonCreate = styled(Button)`
-          margin-top: 15px !important;
-    `;
 
 const FormStyled = styled.form`
-        display: flex;
-        flex-direction: column;        
-         input {
-             margin-bottom: 15px;
-         }
-        `;
-
+    display: flex;
+    flex-direction: column;        
+    input {
+        margin-bottom: 15px;     
+    }
+    input:last-child {
+        display: none;
+    }
+`;
 
 const TextFieldStyled = styled(TextField)`
-        width: 100%;
-        margin-bottom: 15px !important;                     
-    `;
+    margin-bottom: 15px !important;                     
+`;
 
 const CardMediaStyled = styled(CardMedia)`
-            img {
-              width: 100%;
-            }
-    `;
+    img {
+        width: 100%;
+    }
+`;
+
+const ContainerButton = styled.div`
+    display: flex;
+    justify-content: space-evenly;
+    button {
+        margin: 0;
+    }
+`;
 
 export default CreateProjects

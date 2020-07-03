@@ -1,10 +1,9 @@
 import React, {useEffect, useState} from "react";
 import SidePanel from "../SidePanel/SidePanel";
-import {Container} from "@material-ui/core";
 import app from "../../firebase";
 import {MessagesTables} from "./MessagesTable";
 import {CircularLoadingContainer, CircularLoading} from "../StyledComponents/Loader";
-
+import {ContainerMain} from "../StyledComponents/ContainerMain";
 
 const Messages = () => {
 
@@ -45,14 +44,14 @@ const Messages = () => {
     return (
         <>
             <SidePanel/>
-            <Container fixed>
+            <ContainerMain>
                 {firebaseAllDataMessages !== null
                     ?
                     <MessagesTables dataMessages={firebaseAllDataMessages} setIsDeletedMessages={setIsDeletedMessages}/>
                     :
                     <p>Aucun messages</p>
                 }
-            </Container>
+            </ContainerMain>
         </>
     )
 };

@@ -16,6 +16,7 @@ import EditProjects from "./components/Projects/EditProjects";
 import Messages from "./components/Messages/Messages";
 import Message from "./components/Messages/Message";
 import Banners from "./components/Banner/Banners";
+import Footer from "./components/Footer/Footer";
 
 
 function App() {
@@ -25,16 +26,17 @@ function App() {
                 <Router>
                     <Switch>
                         <Route exact path="/login" component={Login}/>
-                        <PrivateRoute exact path="/" component={Home}/>
-                        <PrivateRoute exact path="/projects" component={Projects}/>
-                        <PrivateRoute exact path="/projects/create" component={CreateProjects}/>
-                        <PrivateRoute exact path="/projects/edit/:projectkey" component={EditProjects}/>
+                        <Route exact path="/" component={Home}/>
+                        <Route exact path="/projects" component={Projects}/>
+                        <Route exact path="/projects/create" component={CreateProjects}/>
+                        <Route exact path="/projects/edit/:projectkey" component={EditProjects}/>
                         <PrivateRoute exact path="/messages" component={Messages}/>
                         <PrivateRoute exact path="/message/:keymessage" component={Message}/>
                         <PrivateRoute exact path="/banners" component={Banners}/>
                         <Route component={NoMatch}/>
                     </Switch>
                 </Router>
+                <Footer/>
             </AuthProvider>
         </ThemeProvider>
     );
