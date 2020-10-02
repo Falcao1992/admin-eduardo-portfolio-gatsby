@@ -29,7 +29,7 @@ const useStyles = makeStyles({
 const SidePanel = () => {
     const classes = useStyles();
     const [open, setOpen] = useState(false);
-    const [numberNewMessages, setNumberNewMessages] = useState({});
+    const [numberNewMessages, setNumberNewMessages] = useState(null);
 
     useEffect(() => {
         const fetchDataMessages = async () => {
@@ -39,8 +39,10 @@ const SidePanel = () => {
                 const value = snapshot.val();
                 const FilterNewMessages = Object.values(value).filter(msg => msg.read === "false")
                 setNumberNewMessages(FilterNewMessages.length);
+
             } catch (e) {
                 console.error(e)
+                setNumberNewMessages(0);
             }
         };
         fetchDataMessages()

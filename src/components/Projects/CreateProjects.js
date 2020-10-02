@@ -52,33 +52,34 @@ const CreateProjects = ({history}) => {
         }
     };
 
+    // Send projects'data
     const sendData = () => {
         let copyDataProject;
         copyDataProject = dataProject;
-
+        // Check if already have Netlify's link
         if (dataProject.sourceNetlify === "") {
             dataProject.sourceNetlify = "none"
         }
         copyDataProject.date = moment().format();
         copyDataProject.dateUpdated = moment().format();
-
+        // Send data to cloudStorage
         const refProject = app.storage().ref(`projectsPicture/${key}`)
         const uploadTask = refProject.put(currentImageProjectFile);
         uploadTask.on(`state_changed`,
             (snapshot) => {
                 console.log(snapshot)
             },
-            (error) => {
-                console.log(error)
+            (error) => {console.log(error)
             },
             () => {
+                // Get image's Url
                 refProject.getDownloadURL()
                     .then(url => {
                         copyDataProject.urlImage = url;
                         return copyDataProject
                     })
                     .then((dataUpdate) => {
-                        console.log(dataUpdate);
+                        // send data to dataBase with url
                         app.database().ref(`projects`)
                             .update({
                                 [key]: dataUpdate
@@ -94,9 +95,7 @@ const CreateProjects = ({history}) => {
                             })
                         })
                     })
-                    .catch(e => {
-                        console.error(e)
-                    })
+                    .catch(e => {console.error(e)})
             });
     };
 

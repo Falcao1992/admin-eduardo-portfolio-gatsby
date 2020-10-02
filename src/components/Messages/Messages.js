@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from "react";
 import SidePanel from "../SidePanel/SidePanel";
+import styled from "styled-components"
 import app from "../../firebase";
 import {MessagesTables} from "./MessagesTable";
 import {CircularLoadingContainer, CircularLoading} from "../StyledComponents/Loader";
@@ -49,11 +50,19 @@ const Messages = () => {
                     ?
                     <MessagesTables dataMessages={firebaseAllDataMessages} setIsDeletedMessages={setIsDeletedMessages}/>
                     :
-                    <p>Aucun messages</p>
+                    <ContainerNoMessages>
+                        <p>Aucun messages</p>
+                    </ContainerNoMessages>
                 }
             </ContainerMain>
         </>
     )
 };
+
+const ContainerNoMessages = styled.div`
+    p {
+      text-align: center;
+    }
+`
 
 export default Messages

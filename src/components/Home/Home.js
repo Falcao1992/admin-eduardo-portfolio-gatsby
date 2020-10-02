@@ -143,10 +143,13 @@ const WrapperProjects = styled.div`
 const ContainerImageGrid = styled.div`
     width: calc(25% - .5rem);
     margin: 0 .25rem .25rem;
+    display: flex;
+    a {
+       align-self: flex-end;
+    }
     img {          
         object-fit: cover;
         width: 100%;
-        height: 45vh;
         vertical-align: middle;
         background-color: black;       
     }
