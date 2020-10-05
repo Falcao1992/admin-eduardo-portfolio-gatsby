@@ -89,7 +89,7 @@ const CreateProjects = ({history}) => {
                                     key: key,
                                     type: "banner",
                                     uid: nanoid(),
-                                    urlImage: "https://firebasestorage.googleapis.com/v0/b/portfolio-eduardo-gatsby.appspot.com/o/banners%2FRocket%20and%20Baby%20Groot.jpg?alt=media&token=5c4dc1c3-de5c-4415-b041-08d2225540d1",
+                                    urlImage: "https://firebasestorage.googleapis.com/v0/b/portfolio-eduardo-gatsby.appspot.com/o/banners%2FnoBanner.jpg?alt=media&token=e847b389-5d84-4a00-9e14-fa441d79c782",
                                 }).then(() => {
                                 history.push("/projects")
                             })

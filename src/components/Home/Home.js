@@ -11,7 +11,6 @@ import 'moment/locale/fr';
 import ScheduleIcon from "@material-ui/icons/Schedule";
 import {ContainerMain} from "../StyledComponents/ContainerMain";
 
-console.log("test deploiementssssss")
 
 moment.locale('fr');
 
